@@ -155,12 +155,25 @@
         font-size: 1.5rem;
       }
     }
+
+    .definition-box {
+  background-color: #e8f5e9;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+.definition-box p {
+  margin-bottom: 10px;
+}
+
   </style>
 </head>
 <body>
   <div id="container">
     <div id="score">Score: 0</div>
-    <div id="heading">Prime Numbers (1–100)</div>
+    <div id="heading">Is it a Prime Number?</div>
     <div id="displayPrimeContainer">1</div>
     <div class="buttonRow">
       <button class="btn" id="yesButton">Yes</button>
@@ -171,6 +184,13 @@
 
   <div id="learnModeContainer">
     <h2>Prime Numbers from 1 to 100</h2>
+    <div class="definition-box">
+        <p><strong>A prime number</strong> is a number that has <strong>only two factors</strong>: 1 and itself.</p>
+        <p>That means you can only divide it evenly by 1 and the number itself.</p>
+        <p>🧠 <strong>Examples of Prime Numbers:</strong> 2, 3, 5, 7, 11, 13...</p>
+        <p>⛔ <strong>Not Prime:</strong> 4 is not a prime number because you can divide it by 1, 2, and 4.</p>
+        <p>💡 <strong>Fun Fact:</strong> 2 is the only even prime number!</p>
+      </div>
     <div class="prime-list" id="primeList"></div>
     <button class="btn" id="gameModeButton" onclick="switchToGameMode()">Game Mode</button>
   </div>
