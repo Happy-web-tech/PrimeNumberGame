@@ -1,222 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Find Primes</title>
-    <!-- <link rel="stylesheet" href="Prime.css"> -->
-     <style>
-        /* Reset default browser styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body, html {
-    height: 100%;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Main container layout */
-  #container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 60px;
-    min-height: 100vh;
-    position: relative;
-    background-color: #f0f4f8;
-    /* background-color: #F5ECE0; */
-  }
-  
-  /* Score at top right */
-  #score {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  /* Heading styling */
-  #heading {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    text-align: center;
-    color: #2c3e50;
-  }
-  
-  /* Prime display box */
-  #displayPrimeContainer {
-    font-size: 4rem;
-    font-weight: bold;
-    margin-bottom: 30px;
-    padding: 20px 40px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    text-align: center;
-  }
-  
-  /* Button container */
-  #container > div:nth-of-type(3) {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  /* Button styling */
-  #yesButton, #noButton {
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    background-color: #3498db;
-    color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    user-select: none;
-  }
-  
-  #yesButton:hover {
-    background-color: #2ecc71;
-  }
-  
-  #noButton:hover {
-    background-color: #e74c3c;
-  }
-  
-  /* Responsive tweaks */
-  @media (max-width: 600px) {
-    #displayPrimeContainer {
-      font-size: 3rem;
-      padding: 15px 25px;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prime Numbers Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-  
-    #yesButton, #noButton {
-      padding: 12px 25px;
-      font-size: 1rem;
+
+    body, html {
+      font-family: Arial, sans-serif;
+      height: 100%;
+      background-color: #f0f4f8;
     }
-  
+
+    #container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 60px;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    #score {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+
     #heading {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    #displayPrimeContainer {
+      font-size: 4rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+      padding: 20px 40px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    #container > .buttonRow {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+
+    .btn:hover {
+      background-color: #2980b9;
+    }
+
+    #feedbackMessage {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px 40px;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      font-size: 1.8rem;
+      font-weight: bold;
+      border-radius: 10px;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1000;
+      transition: opacity 0.3s ease;
+    }
+
+    #feedbackMessage.show {
+      opacity: 1;
+      animation: fadeOut 1s ease forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      80% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    #learnModeContainer {
+      display: none;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .prime-list {
+      margin-top: 20px;
       font-size: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
     }
-  }
 
-  #feedbackMessage {
-    position: fixed;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px 40px;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: white;
-    font-size: 1.8rem;
-    font-weight: bold;
-    border-radius: 10px;
-    opacity: 0;
-    pointer-events: none;
-    z-index: 1000;
-    transition: opacity 0.3s ease;
-  }
-  #feedbackMessage.show {
-    opacity: 1;
-    animation: fadeOut 1s ease forwards;
-  }
-  
-  @keyframes fadeOut {
-    0% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
-  }
-     </style>
-  </head>
-  <body>
-    
-    <div id="container">
-        <div id="heading">Is it a prime number?</div>
-        <div id="displayPrimeContainer">1</div>
-        <div>
-            <div id="yesButton" onclick=yesCheckPrime()>Yes</div>
-            <div id="noButton" onclick=noCheckPrime()>No</div>
-        </div>
-        <div id="score">Score: 0</div>
+    .prime-list span {
+      background-color: #ffecb3;
+      color: #2c3e50;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+
+    .prime-list span:hover {
+      transform: scale(1.1);
+      background-color: #ffd54f;
+    }
+
+    #learnModeContainer .btn {
+  margin-top: 2rem;  /* 2 times the base font size */
+}
+
+
+    @media (max-width: 600px) {
+      #displayPrimeContainer {
+        font-size: 3rem;
+        padding: 15px 25px;
+      }
+
+      .btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+
+      #heading {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="score">Score: 0</div>
+    <div id="heading">Prime Numbers (1–100)</div>
+    <div id="displayPrimeContainer">1</div>
+    <div class="buttonRow">
+      <button class="btn" id="yesButton">Yes</button>
+      <button class="btn" id="noButton">No</button>
     </div>
-    <div id="feedbackMessage"></div>
-    <script >
-        const displayPrimeContainer = document.getElementById('displayPrimeContainer');
-const scoreContainer = document.getElementById('score');
-primeNumberArr = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97];
+    <button class="btn" onclick="switchToLearnMode()">Learn Mode</button>
+  </div>
 
-let score = 0;
-let counter = 0;
-randomIntegerNumGenerator1To100();
+  <div id="learnModeContainer">
+    <h2>Prime Numbers from 1 to 100</h2>
+    <div class="prime-list" id="primeList"></div>
+    <button class="btn" id="gameModeButton" onclick="switchToGameMode()">Game Mode</button>
+  </div>
 
-function randomIntegerNumGenerator1To100(){
-    displayPrimeContainer.innerHTML = Math.floor(Math.random() * 100) + 1;
-    counter = counter+1;
-    if(counter == 3){
-        displayPrimeContainer.innerHTML = primeNumberArr[ Math.floor(Math.random() * 25)];
-        counter = 0;
+  <div id="feedbackMessage"></div>
+
+  <script>
+    // Game logic
+    const display = document.getElementById("displayPrimeContainer");
+    const scoreEl = document.getElementById("score");
+    const yesBtn = document.getElementById("yesButton");
+    const noBtn = document.getElementById("noButton");
+
+    let score = 0;
+    let currentNum = 1;
+
+    function randomInteger1To100() {
+      return Math.floor(Math.random() * 100) + 1;
     }
-}
 
-function yesCheckPrime(){
-    score = isPrimeNumber() ? score+1 : score;
-    console.log(`Score: ${score}`);
-    scoreContainer.innerHTML = 'Score: '+score;
-    if(isPrimeNumber()){
-        showFeedbackMessage(true);
-    }
-    else{
-        showFeedbackMessage(false);
-    }
-    randomIntegerNumGenerator1To100();
-}
-
-function noCheckPrime(){
-    score = isPrimeNumber() ? score : score+1;
-    console.log(`Score: ${score}`);
-    scoreContainer.innerHTML = 'Score: '+score;
-    if(!isPrimeNumber()){
-        showFeedbackMessage(true);
-    }
-    else{
-        showFeedbackMessage(false);
-    }
-    randomIntegerNumGenerator1To100();
-}
-
-function isPrimeNumber(){
-    num = displayPrimeContainer.innerHTML;
-    console.log(`Numebr to be checked: ${displayPrimeContainer.innerHTML}`);
-    if (num <= 1) return false; // 0 and 1 are not prime
-    if (num === 2) return true; // 2 is the only even prime
-    if (num % 2 === 0) return false; // eliminate even numbers
-
-    const sqrt = Math.sqrt(num);
-    for (let i = 3; i <= sqrt; i += 2) {
+    function isPrime(num) {
+      if (num <= 1) return false;
+      if (num === 2) return true;
+      if (num % 2 === 0) return false;
+      const sqrt = Math.sqrt(num);
+      for (let i = 3; i <= sqrt; i += 2) {
         if (num % i === 0) return false;
+      }
+      return true;
     }
 
-    return true;
-}
+    function showFeedbackMessage(isCorrect) {
+      const msg = document.getElementById("feedbackMessage");
+      msg.textContent = isCorrect ? "Woohoo!🎉 You're awesome!!🤩" : "Oh! Incorrect!😒";
+      msg.style.backgroundColor = isCorrect ? "green" : "red";
+      msg.classList.add("show");
+      setTimeout(() => {
+        msg.classList.remove("show");
+      }, 1000);
+    }
 
-function showFeedbackMessage(isCorrect) {
-    const messageEl = document.getElementById("feedbackMessage");
-    messageEl.textContent = isCorrect ? "Woohoo!🎉 You're awesome!!🤩" : "Oh! Incorrect!😒";
-    messageEl.style.backgroundColor = isCorrect ? "green" : "red";
-    messageEl.classList.add("show");
-  
-    // Remove the class after animation to allow repeat display
-    setTimeout(() => {
-      messageEl.classList.remove("show");
-    }, 1000);
-  }
-  
+    function updateGame() {
+      currentNum = randomInteger1To100();
+      display.textContent = currentNum;
+    }
 
-    </script>
-  </body>
+    function handleAnswer(userSaysPrime) {
+      const actualPrime = isPrime(currentNum);
+      const isCorrect = userSaysPrime === actualPrime;
+      showFeedbackMessage(isCorrect);
+      if (isCorrect) {
+        score += 1;
+        scoreEl.textContent = "Score: " + score;
+      } else {
+        score = 0;
+        scoreEl.textContent = "Score: 0";
+      }
+      updateGame();
+    }
+
+    yesBtn.onclick = () => handleAnswer(true);
+    noBtn.onclick = () => handleAnswer(false);
+
+    updateGame(); // Initial number
+
+    // Learn Mode
+    function switchToLearnMode() {
+      document.getElementById("container").style.display = "none";
+      const learnContainer = document.getElementById("learnModeContainer");
+      const primeListEl = document.getElementById("primeList");
+      learnContainer.style.display = "block";
+
+      const primes = [];
+      for (let i = 1; i <= 100; i++) {
+        if (isPrime(i)) primes.push(i);
+      }
+      primeListEl.innerHTML = primes.map(p => `<span>${p}</span>`).join(" ");
+    }
+
+    function switchToGameMode() {
+      document.getElementById("learnModeContainer").style.display = "none";
+      document.getElementById("container").style.display = "flex";
+      updateGame();
+    }
+  </script>
+</body>
 </html>
